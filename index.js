@@ -21,6 +21,8 @@ app.post('/bfhl', (req, res) => {
   const name = req.body.name;
   const dob = req.body.dofb; // Replace with the actual field name for date of birth
   // Format date of birth to ddmmyyyy
+    const roll = req.body.roll
+    const email= req.body.email
   const formattedName = name.toLowerCase().replace(' ', '_');
   const dobParts = dob.split('-'); // Assuming date format is yyyy-mm-dd
   const formattedDob = `${dobParts[2]}${dobParts[1]}${dobParts[0]}`;
@@ -31,19 +33,35 @@ app.post('/bfhl', (req, res) => {
 
   // Function to find the last alphabet
 
+    // function findLastAlphabet(arr) {
+    //   let lastAlphabet = null;
+
+    //   for (let i = 0; i < arr.length; i++) {
+    //     const char = arr[i].toLowerCase();
+
+    //     if (char >= 'a' && char <= 'z') {
+    //       lastAlphabet = char;
+    //     }
+    //   }
+
+    //   return lastAlphabet;
+    // }
     function findLastAlphabet(arr) {
       let lastAlphabet = null;
 
       for (let i = 0; i < arr.length; i++) {
         const char = arr[i].toLowerCase();
 
-        if (char >= 'a' && char <= 'z') {
-          lastAlphabet = char;
+        if (/^[a-z]$/.test(char)) {
+          if (!lastAlphabet || char > lastAlphabet) {
+            lastAlphabet = char;
+          }
         }
       }
 
-      return lastAlphabet;
+      return lastAlphabet ? lastAlphabet.toUpperCase() : null;
     }
+
 
     const numbersArray = [];
     const alphabetsArray = [];
@@ -64,6 +82,8 @@ app.post('/bfhl', (req, res) => {
       is_success: true,
       name,
       userId: userId,
+      email,
+      roll,
       numbers_array: numbersArray,
       alphabets_array: alphabetsArray,
       highestAlphabet: highestAlphabet,
